@@ -41,7 +41,12 @@
     }
 
     .submit {
-      margin-top:32px
+      margin-top:32px   
+    }
+
+    .submit[disabled] {
+        background-color:$disabled;  
+        color: $disabledLabel;       
     }
 
     .link {
