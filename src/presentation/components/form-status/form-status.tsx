@@ -5,14 +5,14 @@ import Styles from './form-status-styles.scss';
 import Context from '@/presentation/contexts/form/form-context'
 
 const Footer: React.FC = () => {
-  const { state, errorState } = useContext(Context)
-  const { main } = errorState
-  const { isLoading } = state
+  const { state } = useContext(Context)
+
+  const { isLoading, mainError } = state
 
   return (
     <div data-testid="error-wrap" className={Styles.errorWrap}>
       {isLoading && <Spinner className={Styles.spinner} />}
-      {main && <span className={Styles.error}>{main}</span>}
+      {mainError && <span className={Styles.error}>{mainError}</span>}
     </div>
   )
 }
