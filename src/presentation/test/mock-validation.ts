@@ -1,6 +1,6 @@
 import { Validation } from "../protocols/validations";
 
-class ValidationSpy implements Validation {
+class ValidationStub implements Validation {
   errorMessage: string;
   fieldName: string;
   fieldValue: string;
@@ -12,4 +12,4 @@ class ValidationSpy implements Validation {
   }
 }
 
-export { ValidationSpy };
+export { ValidationStub };
