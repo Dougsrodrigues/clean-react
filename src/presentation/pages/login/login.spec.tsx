@@ -16,6 +16,9 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy();
+
+  validationSpy.errorMessage = faker.random.words();
+
   const sut = render(<Login validation={validationSpy} />);
 
   return {
@@ -27,7 +30,7 @@ const makeSut = (): SutTypes => {
 describe("Login Component", () => {
   afterEach(cleanup);
   test("Should start with initial state", () => {
-    const { sut } = makeSut();
+    const { sut, validationSpy } = makeSut();
 
     const errorWrap = sut.getByTestId("error-wrap");
     expect(errorWrap.childElementCount).toBe(0);
@@ -36,7 +39,7 @@ describe("Login Component", () => {
     expect(submitButton.disabled).toBeTruthy();
 
     const emailStatus = sut.getByTestId("email-status");
-    expect(emailStatus.title).toBe("Campo Obrigatório");
+    expect(emailStatus.title).toBe(validationSpy.errorMessage);
     expect(emailStatus.textContent).toBe("🔴");
 
     const passwordStatus = sut.getByTestId("password-status");
@@ -60,5 +63,18 @@ describe("Login Component", () => {
     fireEvent.input(passwordInput, { target: { value: password } });
     expect(validationSpy.fieldName).toEqual("password");
     expect(validationSpy.fieldValue).toEqual(password);
+  });
+
+  test("Should show email error if Validation fails", () => {
+    const { sut, validationSpy } = makeSut();
+
+    const email = faker.internet.email();
+    const emailInput = sut.getByTestId("email");
+    fireEvent.input(emailInput, { target: { value: email } });
+
+    const emailStatus = sut.getByTestId("email-status");
+
+    expect(emailStatus.title).toBe(validationSpy.errorMessage);
+    expect(emailStatus.textContent).toBe("🔴");
   });
 });
