@@ -8,12 +8,14 @@ import {
 } from "@/presentation/components";
 import Context from "@/presentation/contexts/form/form-context";
 import { Validation } from "@/presentation/protocols/validations";
+import { Authentication } from "@/domain/usecases";
 
 type Props = {
   validation: Validation;
+  authentication: Authentication;
 };
 
-const Login: FC<Props> = ({ validation }) => {
+const Login: FC<Props> = ({ validation, authentication }) => {
   const [state, setState] = useState({
     isLoading: false,
     email: "",
@@ -31,9 +33,10 @@ const Login: FC<Props> = ({ validation }) => {
     });
   }, [state.email, state.password]);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setState({ ...state, isLoading: true });
+    await authentication.auth({ email: state.email, password: state.password });
   };
 
   return (
