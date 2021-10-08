@@ -109,4 +109,23 @@ describe("Login Component", () => {
 
     expect(emailStatus.textContent).toBe("🟢");
   });
+
+  test("Should enable submit button if form is valid", () => {
+    const { sut, validationStub } = makeSut();
+
+    validationStub.errorMessage = null;
+
+    const email = faker.internet.email();
+    const password = faker.internet.password();
+
+    const emailInput = sut.getByTestId("email");
+    const passwordInput = sut.getByTestId("password");
+
+    fireEvent.input(emailInput, { target: { value: email } });
+    fireEvent.input(passwordInput, { target: { value: password } });
+
+    const submitButton = sut.getByTestId("submit") as HTMLButtonElement;
+
+    expect(submitButton.disabled).toBe(false);
+  });
 });
