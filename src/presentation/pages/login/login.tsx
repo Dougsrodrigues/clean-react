@@ -15,7 +15,7 @@ type Props = {
 
 const Login: FC<Props> = ({ validation }) => {
   const [state, setState] = useState({
-    isLogin: false,
+    isLoading: false,
     email: "",
     password: "",
     emailError: "",
@@ -31,11 +31,16 @@ const Login: FC<Props> = ({ validation }) => {
     });
   }, [state.email, state.password]);
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setState({ ...state, isLoading: true });
+  };
+
   return (
     <div className={Styles.login}>
       <LoginHeader />
       <Context.Provider value={{ state, setState }}>
-        <form className={Styles.form}>
+        <form className={Styles.form} onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="Digite seu e-mail" />
 
