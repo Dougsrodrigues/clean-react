@@ -1,70 +1,75 @@
-import React from 'react';
-import { render, RenderResult, fireEvent, cleanup } from '@testing-library/react'
-import Login from './login'
-import { Validation } from '@/presentation/protocols/validations';
-
+import React from "react";
+import {
+  render,
+  RenderResult,
+  fireEvent,
+  cleanup,
+} from "@testing-library/react";
+import Login from "./login";
+import { Validation } from "@/presentation/protocols/validations";
 
 type SutTypes = {
-  sut: RenderResult
-  validationSpy: ValidationSpy
-}
+  sut: RenderResult;
+  validationSpy: ValidationSpy;
+};
 
 class ValidationSpy implements Validation {
-  errorMessage: string
-  input: object
+  errorMessage: string;
+  fieldName: string;
+  fieldValue: string;
 
-  validate(input: object): string {
-    this.input = input
-    return this.errorMessage
+  validate(fieldName: string, fieldValue: string): string {
+    this.fieldName = fieldName;
+    this.fieldValue = fieldValue;
+    return this.errorMessage;
   }
 }
 
 const makeSut = (): SutTypes => {
-  const validationSpy = new ValidationSpy()
-  const sut = render(<Login validation={validationSpy} />)
+  const validationSpy = new ValidationSpy();
+  const sut = render(<Login validation={validationSpy} />);
 
   return {
     sut,
-    validationSpy
-  }
-}
+    validationSpy,
+  };
+};
 
-describe('Login Component', () => {
-  afterEach(cleanup)
-  test('Should start with initial state', () => {
-    const { sut } = makeSut()
+describe("Login Component", () => {
+  afterEach(cleanup);
+  test("Should start with initial state", () => {
+    const { sut } = makeSut();
 
-    const errorWrap = sut.getByTestId('error-wrap')
-    expect(errorWrap.childElementCount).toBe(0)
+    const errorWrap = sut.getByTestId("error-wrap");
+    expect(errorWrap.childElementCount).toBe(0);
 
-    const submitButton = sut.getByTestId('submit') as HTMLButtonElement
-    expect(submitButton.disabled).toBeTruthy()
+    const submitButton = sut.getByTestId("submit") as HTMLButtonElement;
+    expect(submitButton.disabled).toBeTruthy();
 
-    const emailStatus = sut.getByTestId('email-status')
-    expect(emailStatus.title).toBe('Campo Obrigatório')
-    expect(emailStatus.textContent).toBe('🔴')
+    const emailStatus = sut.getByTestId("email-status");
+    expect(emailStatus.title).toBe("Campo Obrigatório");
+    expect(emailStatus.textContent).toBe("🔴");
 
-    const passwordStatus = sut.getByTestId('password-status')
-    expect(passwordStatus.title).toBe('Campo Obrigatório')
-    expect(passwordStatus.textContent).toBe('🔴')
+    const passwordStatus = sut.getByTestId("password-status");
+    expect(passwordStatus.title).toBe("Campo Obrigatório");
+    expect(passwordStatus.textContent).toBe("🔴");
+  });
 
-  })
+  test("Should call Validation with correct email", () => {
+    const { sut, validationSpy } = makeSut();
 
-  test('Should call Validation with correct email', () => {
-    const { sut, validationSpy } = makeSut()
+    const emailInput = sut.getByTestId("email");
+    fireEvent.input(emailInput, { target: { value: "any_email" } });
+    expect(validationSpy.fieldName).toEqual("email");
+    expect(validationSpy.fieldValue).toEqual("any_email");
+  });
 
-    const emailInput = sut.getByTestId('email')
-    fireEvent.input(emailInput, { target: { value: 'any_email' } })
-    expect(validationSpy.input).toEqual({ email: 'any_email' })
+  test("Should call Validation with correct password", () => {
+    const { sut, validationSpy } = makeSut();
 
-  })
-
-  test('Should call Validation with correct password', () => {
-    const { sut, validationSpy } = makeSut()
-
-    const passwordInput = sut.getByTestId('password')
-    fireEvent.input(passwordInput, { target: { value: 'any_password' } })
-    expect(validationSpy.input).toEqual({ password: 'any_password' })
-
-  })
-})
+    const passwordInput = sut.getByTestId("password");
+    fireEvent.input(passwordInput, { target: { value: "any_password" } });
+    expect(validationSpy.fieldName).toEqual("password");
+    expect(validationSpy.fieldValue).toEqual("any_password");
+  });
+});
