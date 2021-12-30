@@ -53,6 +53,12 @@ const simulateValidSubmit = (sut: RenderResult) => {
   fireEvent.click(submitButton);
 }
 
+const populateEmailField = (sut: RenderResult) => {
+  const email = faker.internet.email();
+  const emailInput = sut.getByTestId("email");
+  fireEvent.input(emailInput, { target: { value: email } });
+}
+
 describe("Login Component", () => {
   afterEach(cleanup);
   test("Should start with initial state", () => {
@@ -202,6 +208,19 @@ describe("Login Component", () => {
     simulateValidSubmit(sut)
 
     expect(authenticationSpy.callsCount).toBe(1)
+
+  })
+
+
+  test('Shoul not call Authentication if form is invalid ', () => {
+    const validationError = faker.random.words();
+    const { sut, authenticationSpy } = makeSut({ validationError });
+
+    populateEmailField(sut)
+
+    fireEvent.submit(sut.getByTestId("form"))
+
+    expect(authenticationSpy.callsCount).toBe(0)
 
   })
 });
