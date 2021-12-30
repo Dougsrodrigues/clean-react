@@ -6,20 +6,14 @@ import {
   cleanup,
 } from "@testing-library/react";
 import Login from "./login";
-import { ValidationStub } from "@/presentation/test";
+import { AuthenticationSpy, ValidationStub } from "@/presentation/test";
 import faker from "faker";
 import { Authentication, AuthenticationParams } from "@/domain/usecases";
 import { AccountModel } from "@/domain/models";
 import { mockAccountModel } from "@/domain/test";
 
-class AuthenticationSpy implements Authentication {
-  account = mockAccountModel();
-  params: AuthenticationParams;
-  auth(params: AuthenticationParams): Promise<AccountModel> {
-    this.params = params;
-    return Promise.resolve(this.account);
-  }
-}
+
+
 
 type SutTypes = {
   sut: RenderResult;
@@ -43,6 +37,21 @@ const makeSut = (params?: SutParams): SutTypes => {
     authenticationSpy,
   };
 };
+
+const simulateValidSubmit = (sut: RenderResult) => {
+  const email = faker.internet.email();
+  const password = faker.internet.password();
+
+  const emailInput = sut.getByTestId("email");
+  const passwordInput = sut.getByTestId("password");
+
+  fireEvent.input(emailInput, { target: { value: email } });
+  fireEvent.input(passwordInput, { target: { value: password } });
+
+  const submitButton = sut.getByTestId("submit") as HTMLButtonElement;
+
+  fireEvent.click(submitButton);
+}
 
 describe("Login Component", () => {
   afterEach(cleanup);
@@ -183,4 +192,16 @@ describe("Login Component", () => {
       password,
     });
   });
+
+
+
+  test('Shoul call Authentication only once', () => {
+    const { sut, authenticationSpy } = makeSut()
+
+    simulateValidSubmit(sut)
+    simulateValidSubmit(sut)
+
+    expect(authenticationSpy.callsCount).toBe(1)
+
+  })
 });
