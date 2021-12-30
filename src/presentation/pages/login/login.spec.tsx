@@ -6,12 +6,10 @@ import {
   cleanup,
   waitFor,
 } from "@testing-library/react";
+import 'jest-localstorage-mock'
 import Login from "./login";
 import { AuthenticationSpy, ValidationStub } from "@/presentation/test";
 import faker from "faker";
-import { Authentication, AuthenticationParams } from "@/domain/usecases";
-import { AccountModel } from "@/domain/models";
-import { mockAccountModel } from "@/domain/test";
 import { InvalidCredentialsError } from "@/domain/errors";
 
 
@@ -63,6 +61,10 @@ const populateEmailField = (sut: RenderResult) => {
 
 describe("Login Component", () => {
   afterEach(cleanup);
+  beforeEach(() => {
+    localStorage.clear()
+  })
+
   test("Should start with initial state", () => {
     const validationError = faker.random.words();
     const { sut } = makeSut({ validationError });
@@ -241,5 +243,16 @@ describe("Login Component", () => {
 
     expect(mainError.textContent).toBe(error.message)
     expect(errorWrap.childElementCount).toBe(1);
+  })
+
+  test.only("Should add access token to local storage on success", async () => {
+    const { sut, authenticationSpy } = makeSut()
+
+
+    simulateValidSubmit(sut)
+
+    await waitFor(() => sut.getByTestId('form'))
+
+    expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
   })
 });
