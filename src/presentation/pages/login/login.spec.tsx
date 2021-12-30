@@ -252,7 +252,7 @@ describe("Login Component", () => {
     expect(errorWrap.childElementCount).toBe(1);
   })
 
-  test("Should add access token to local storage and redirect to / on success", async () => {
+  test("Should add access token to local storage and redirect to main page on success", async () => {
     const { sut, authenticationSpy } = makeSut()
 
 
