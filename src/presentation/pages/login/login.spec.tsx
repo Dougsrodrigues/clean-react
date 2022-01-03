@@ -262,7 +262,7 @@ describe('Login Component', () => {
   });
 
   test('Should go to signup page', async () => {
-    const { sut, authenticationSpy } = makeSut();
+    const { sut } = makeSut();
 
     const register = sut.getByTestId('signup');
 

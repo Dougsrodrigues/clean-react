@@ -33,6 +33,7 @@ const Login: FC<Props> = ({ validation, authentication }) => {
       emailError: validation.validate('email', state.email),
       passwordError: validation.validate('password', state.password),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.email, state.password]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
