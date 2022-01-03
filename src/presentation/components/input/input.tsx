@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Styles from './input-styles.scss';
 import Context from '@/presentation/contexts/form/form-context';
 
-type Props = React.InputHTMLAttributes<HTMLInputElement>;
+type Props = React.InputHTMLAttributes<HTMLInputElement> & { name: string };
 
 const Footer: React.FC<Props> = (props: Props) => {
   const { state, setState } = useContext(Context);

@@ -1,8 +1,8 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import faker from 'faker';
 
 export const mockHttpResponse = (): any => {
-  const status = faker.random.number();
+  const status = faker.datatype.number();
   const data = faker.random.objectElement();
 
   return {

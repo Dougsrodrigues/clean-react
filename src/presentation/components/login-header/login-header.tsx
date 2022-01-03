@@ -10,4 +10,6 @@ const LoginHeader: React.FC = memo(() => {
   );
 });
 
+LoginHeader.displayName = 'LoginHeader';
+
 export default LoginHeader;
