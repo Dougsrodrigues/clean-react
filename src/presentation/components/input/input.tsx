@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import Styles from "./input-styles.scss";
-import Context from "@/presentation/contexts/form/form-context";
+import React, { useContext } from 'react';
+import Styles from './input-styles.scss';
+import Context from '@/presentation/contexts/form/form-context';
 
 type Props = React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -16,11 +16,11 @@ const Footer: React.FC<Props> = (props: Props) => {
   }
 
   const getStatus = (): string => {
-    return error ? "🔴" : "🟢";
+    return error ? '🔴' : '🟢';
   };
 
   const getTitle = (): string => {
-    return error || "Tudo certo!";
+    return error || 'Tudo certo!';
   };
 
   return (

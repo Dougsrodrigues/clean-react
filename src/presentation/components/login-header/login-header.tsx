@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import Logo from '../logo/logo'
+import Logo from '../logo/logo';
 import Styles from './login-header-styles.scss';
 
 const LoginHeader: React.FC = memo(() => {
@@ -7,7 +7,7 @@ const LoginHeader: React.FC = memo(() => {
     <header className={Styles.header}>
       <Logo />
     </header>
-  )
-})
+  );
+});
 
 export default LoginHeader;

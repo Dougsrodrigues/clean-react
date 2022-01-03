@@ -1,15 +1,15 @@
-import React, { FC, useState, useEffect } from "react";
-import Styles from "./login-styles.scss";
+import React, { FC, useState, useEffect } from 'react';
+import Styles from './login-styles.scss';
 import {
   Footer,
   Input,
   FormStatus,
   LoginHeader,
-} from "@/presentation/components";
-import Context from "@/presentation/contexts/form/form-context";
-import { Validation } from "@/presentation/protocols/validations";
-import { Authentication } from "@/domain/usecases";
-import { Link, useHistory } from "react-router-dom";
+} from '@/presentation/components';
+import Context from '@/presentation/contexts/form/form-context';
+import { Validation } from '@/presentation/protocols/validations';
+import { Authentication } from '@/domain/usecases';
+import { Link, useHistory } from 'react-router-dom';
 
 type Props = {
   validation: Validation;
@@ -17,32 +17,35 @@ type Props = {
 };
 
 const Login: FC<Props> = ({ validation, authentication }) => {
-  const history = useHistory()
+  const history = useHistory();
   const [state, setState] = useState({
     isLoading: false,
-    email: "",
-    password: "",
-    emailError: "",
-    passwordError: "",
-    mainError: "",
+    email: '',
+    password: '',
+    emailError: '',
+    passwordError: '',
+    mainError: '',
   });
 
   useEffect(() => {
     setState({
       ...state,
-      emailError: validation.validate("email", state.email),
-      passwordError: validation.validate("password", state.password),
+      emailError: validation.validate('email', state.email),
+      passwordError: validation.validate('password', state.password),
     });
   }, [state.email, state.password]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (state.isLoading || state.emailError || state.passwordError) return
+      if (state.isLoading || state.emailError || state.passwordError) return;
 
       setState({ ...state, isLoading: true });
 
-      const account = await authentication.auth({ email: state.email, password: state.password });
+      const account = await authentication.auth({
+        email: state.email,
+        password: state.password,
+      });
 
       localStorage.setItem('accessToken', account.accessToken);
       history.replace('/');
@@ -51,16 +54,19 @@ const Login: FC<Props> = ({ validation, authentication }) => {
         ...state,
         isLoading: false,
         mainError: error.message,
-      })
+      });
     }
-
   };
 
   return (
     <div className={Styles.login}>
       <LoginHeader />
       <Context.Provider value={{ state, setState }}>
-        <form className={Styles.form} onSubmit={handleSubmit} data-testid="form">
+        <form
+          className={Styles.form}
+          onSubmit={handleSubmit}
+          data-testid="form"
+        >
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="Digite seu e-mail" />
 
@@ -78,10 +84,9 @@ const Login: FC<Props> = ({ validation, authentication }) => {
           >
             Entrar
           </button>
-          <Link
-            to="/signup"
-            data-testid="signup"
-            className={Styles.link}>Criar conta</Link>
+          <Link to="/signup" data-testid="signup" className={Styles.link}>
+            Criar conta
+          </Link>
           <FormStatus />
         </form>
       </Context.Provider>

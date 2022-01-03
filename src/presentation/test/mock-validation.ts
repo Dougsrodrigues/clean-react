@@ -1,8 +1,10 @@
-import { Validation } from "../protocols/validations";
+import { Validation } from '../protocols/validations';
 
 class ValidationStub implements Validation {
   errorMessage: string;
+
   fieldName: string;
+
   fieldValue: string;
 
   validate(fieldName: string, fieldValue: string): string {
