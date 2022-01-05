@@ -17,7 +17,7 @@ jobs:
           node-version: 12.x
 
       - name: Code linting
-        run: yarn lint
+        run: npm run lint
 
       - name: Type checking
-        run: yarn tsc
+        run: npm run lint
