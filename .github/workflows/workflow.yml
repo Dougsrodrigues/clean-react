@@ -22,3 +22,6 @@ jobs:
       - name: Code linting
         run: npm run lint
 
+      - name: Run tests
+        run: npm run test:staged"
+
