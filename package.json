@@ -8,7 +8,8 @@
     "test": "jest --passWithNoTests --no-cache --runInBand",
     "test:watch": "npm test -- --watch",
     "test:ci": "npm test -- --coverage",
-    "test:staged": "npm test -- --findRelatedTests"
+    "test:staged": "npm test -- --findRelatedTests",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "keywords": [],
   "author": "",

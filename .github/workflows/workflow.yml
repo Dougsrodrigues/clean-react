@@ -1,0 +1,22 @@
+name: Github Pages Deploy
+
+on:
+  push:
+    branches:
+      - "master"
+jobs:
+  build:
+    runs-on: ubunto-latest
+    strategy:
+      matrix:
+          node-version: [12.x, 14.x, 16.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Code linting
+        run: yarn lint
+
+      - name: Type checking
+        run: yarn tsc
