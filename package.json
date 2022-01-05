@@ -1,6 +1,6 @@
 {
   "name": "clean-react",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "test:watch": "npm test -- --watch",
     "test:ci": "npm test -- --coverage",
     "test:staged": "npm test -- --findRelatedTests",
-    "lint": "eslint src/** --fix"
+    "lint": "eslint src/** --fix",
+    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,7 @@
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
     "clean-webpack-plugin": "^3.0.0",
+    "coveralls": "^3.1.1",
     "css-loader": "^5.2.0",
     "eslint": "^8.6.0",
     "eslint-config-airbnb-base": "^15.0.0",
