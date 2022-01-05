@@ -9,7 +9,7 @@
     "test:watch": "npm test -- --watch",
     "test:ci": "npm test -- --coverage",
     "test:staged": "npm test -- --findRelatedTests",
-    "lint": "eslint 'src/**'"
+    "lint": "eslint src/** --fix"
   },
   "keywords": [],
   "author": "",
