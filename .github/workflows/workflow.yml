@@ -23,5 +23,5 @@ jobs:
         run: npm run lint
 
       - name: Run tests
-        run: npm test:coveralls
+        run: npm run test:coveralls
 
