@@ -28,6 +28,7 @@
     "prettier",
     "import"
   ],
+  "ignorePatterns": ["jest.config.js"],
   "rules": {
     "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/no-explicit-any": "off",
