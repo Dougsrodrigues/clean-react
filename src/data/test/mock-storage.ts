@@ -1,13 +1,12 @@
 import { SetStorage } from '../protocols/cache/set-storage';
 
-export class SetStorageSpy implements SetStorage {
+export class SetStorageMock implements SetStorage {
   key: string;
 
   value: any;
 
-  set(key: string, value: any): Promise<void> {
+  async set(key: string, value: any): Promise<void> {
     this.key = key;
     this.value = value;
-    return Promise.resolve();
   }
 }
