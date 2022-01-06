@@ -53,7 +53,7 @@ const makeSut = (params?: SutParams): SutTypes => {
   };
 };
 
-const simulateValidSubmit = (sut: RenderResult) => {
+const simulateValidSubmit = async (sut: RenderResult) => {
   const email = faker.internet.email();
   const password = faker.internet.password();
 
@@ -215,11 +215,11 @@ describe('Login Component', () => {
     });
   });
 
-  test('Shoul call Authentication only once', () => {
+  test('Shoul call Authentication only once', async () => {
     const { sut, authenticationSpy } = makeSut();
 
-    simulateValidSubmit(sut);
-    simulateValidSubmit(sut);
+    await simulateValidSubmit(sut);
+    await simulateValidSubmit(sut);
 
     expect(authenticationSpy.callsCount).toBe(1);
   });
@@ -242,7 +242,7 @@ describe('Login Component', () => {
       .spyOn(authenticationSpy, 'auth')
       .mockReturnValueOnce(Promise.reject(error));
 
-    simulateValidSubmit(sut);
+    await simulateValidSubmit(sut);
 
     const errorWrap = sut.getByTestId('error-wrap');
 
@@ -275,5 +275,24 @@ describe('Login Component', () => {
 
     expect(history.length).toBe(2);
     expect(history.location.pathname).toBe('/signup');
+  });
+
+  test('Should present error if SaveAccessToken fails', async () => {
+    const { sut, saveAccessTokenMock } = makeSut();
+    const error = new InvalidCredentialsError();
+    jest
+      .spyOn(saveAccessTokenMock, 'save')
+      .mockReturnValueOnce(Promise.reject(error));
+
+    await simulateValidSubmit(sut);
+
+    const errorWrap = sut.getByTestId('error-wrap');
+
+    await waitFor(() => errorWrap);
+
+    const mainError = sut.getByTestId('main-error');
+
+    expect(mainError.textContent).toBe(error.message);
+    expect(errorWrap.childElementCount).toBe(1);
   });
 });
