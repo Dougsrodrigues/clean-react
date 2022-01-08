@@ -28,7 +28,11 @@
     "prettier",
     "import"
   ],
-  "ignorePatterns": ["jest.config.js", "prettier.config.js"],
+  "ignorePatterns": [
+    "jest.config.js",
+    "prettier.config.js",
+    "webpack.config.js"
+  ],
   "rules": {
     "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/no-explicit-any": "off",
