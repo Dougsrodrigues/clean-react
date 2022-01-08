@@ -1,4 +1,5 @@
-import { HttpPostClient } from '@/data/protocols/http';
+import { HttpPostClient, HttpStatusCode } from '@/data/protocols/http';
+import { EmailInUseError } from '@/domain/errors';
 import { AccountModel } from '@/domain/models';
 import { AddAccountParams, AddAcount } from '@/domain/usecases';
 
@@ -16,6 +17,12 @@ export class RemoteAddAccount implements AddAcount {
       url: this.url,
       body: params,
     });
-    return null;
+
+    switch (httpResponse.statusCode) {
+      case HttpStatusCode.forbidden:
+        throw new EmailInUseError();
+      default:
+        return null;
+    }
   }
 }
