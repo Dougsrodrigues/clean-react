@@ -49,7 +49,6 @@ const Login: FC<Props> = ({ validation, authentication, saveAccessToken }) => {
         password: state.password,
       });
 
-      console.log({ account });
       await saveAccessToken.save(account.accessToken);
 
       history.replace('/');
