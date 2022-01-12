@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Styles from './signup-styles.scss';
 import {
   Footer,
@@ -8,17 +8,17 @@ import {
 } from '@/presentation/components';
 import Context from '@/presentation/contexts/form/form-context';
 import { Validation } from '@/presentation/protocols/validations';
-import { Authentication, SaveAccessToken } from '@/domain/usecases';
+import { Authentication } from '@/domain/usecases';
 
 type Props = {
   validation: Validation;
-  authentication: Authentication;
-  saveAccessToken: SaveAccessToken;
+  // authentication: Authentication;
 };
 
-const SignUp: FC = () => {
-  const [state] = useState({
+const SignUp: FC<Props> = ({ validation }) => {
+  const [state, setState] = useState({
     isLoading: false,
+    name: '',
     nameError: 'Campo obrigatório',
     emailError: 'Campo obrigatório',
     passwordError: 'Campo obrigatório',
@@ -26,10 +26,18 @@ const SignUp: FC = () => {
     mainError: '',
   });
 
+  useEffect(() => {
+    setState({
+      ...state,
+      nameError: validation.validate('name', state.name),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.name]);
+
   return (
     <div className={Styles.signup}>
       <LoginHeader />
-      <Context.Provider value={{ state }}>
+      <Context.Provider value={{ state, setState }}>
         <form className={Styles.form}>
           <h2>Criar Conta</h2>
           <Input type="text" name="name" placeholder="Digite seu nome" />
