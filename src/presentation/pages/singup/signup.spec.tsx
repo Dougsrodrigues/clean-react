@@ -41,7 +41,7 @@ describe('SignUp Component', () => {
     Helper.testStatusForField(sut, 'name', validationError);
     Helper.testStatusForField(sut, 'email', validationError);
     Helper.testStatusForField(sut, 'password', validationError);
-    Helper.testStatusForField(sut, 'passwordConfirmation', 'Campo obrigatório');
+    Helper.testStatusForField(sut, 'passwordConfirmation', validationError);
   });
 
   test('Should show name error if Validation fails', () => {
