@@ -1,3 +1,3 @@
 export * from './InvalidCredentialsError';
 export * from './unexpectedError';
-export * from './EmailInUseError';
+export * from './emailInUseError';
