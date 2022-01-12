@@ -20,9 +20,10 @@ const SignUp: FC<Props> = ({ validation }) => {
     isLoading: false,
     name: '',
     email: '',
+    password: '',
     nameError: '',
     emailError: '',
-    passwordError: 'Campo obrigatório',
+    passwordError: '',
     passwordConfirmationError: 'Campo obrigatório',
     mainError: '',
   });
@@ -32,9 +33,10 @@ const SignUp: FC<Props> = ({ validation }) => {
       ...state,
       nameError: validation.validate('name', state.name),
       emailError: validation.validate('email', state.email),
+      passwordError: validation.validate('password', state.password),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.name, state.email]);
+  }, [state.name, state.email, state.password]);
 
   return (
     <div className={Styles.signup}>
