@@ -7,6 +7,6 @@ export type AddAccountParams = {
   passwordConfirmation: string;
 };
 
-export interface AddAcount {
+export interface AddAccount {
   add(params: AddAccountParams): Promise<AccountModel>;
 }
