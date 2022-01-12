@@ -19,8 +19,9 @@ const SignUp: FC<Props> = ({ validation }) => {
   const [state, setState] = useState({
     isLoading: false,
     name: '',
-    nameError: 'Campo obrigatório',
-    emailError: 'Campo obrigatório',
+    email: '',
+    nameError: '',
+    emailError: '',
     passwordError: 'Campo obrigatório',
     passwordConfirmationError: 'Campo obrigatório',
     mainError: '',
@@ -30,9 +31,10 @@ const SignUp: FC<Props> = ({ validation }) => {
     setState({
       ...state,
       nameError: validation.validate('name', state.name),
+      emailError: validation.validate('email', state.email),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.name]);
+  }, [state.name, state.email]);
 
   return (
     <div className={Styles.signup}>
