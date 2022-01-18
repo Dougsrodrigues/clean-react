@@ -32,7 +32,14 @@ const SignUp: FC<Props> = ({ validation, addAccount }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (state.isLoading) return;
+    if (
+      state.isLoading ||
+      state.emailError ||
+      state.nameError ||
+      state.passwordConfirmationError ||
+      state.passwordError
+    )
+      return;
 
     setState({ ...state, isLoading: true });
 
