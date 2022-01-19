@@ -42,10 +42,20 @@ const testElementExists = (sut: RenderResult, fieldName: string): void => {
   expect(sut.getByTestId(fieldName)).toBeTruthy();
 };
 
+const testElementText = (
+  sut: RenderResult,
+  fieldName: string,
+  text: string,
+) => {
+  const el = sut.getByTestId(fieldName);
+  expect(el.textContent).toBe(text);
+};
+
 export {
   testChildCount,
   testButtonIsDisabled,
   testStatusForField,
   populateField,
   testElementExists,
+  testElementText,
 };
